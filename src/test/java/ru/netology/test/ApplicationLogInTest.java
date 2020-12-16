@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static ru.netology.data.DataGenerator.*;
 
-public class LogInTest {
+public class ApplicationLogInTest {
 
     @BeforeEach
     void setUp(){
