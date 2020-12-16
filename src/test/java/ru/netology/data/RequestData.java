@@ -1,4 +1,11 @@
-package ru.netology;
+package ru.netology.data;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@RequiredArgsConstructor
+
 
 public class RequestData {
     private String login;
