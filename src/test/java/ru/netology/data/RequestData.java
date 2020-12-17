@@ -2,10 +2,12 @@ package ru.netology.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-@RequiredArgsConstructor
 
 
 public class RequestData {
@@ -13,7 +15,4 @@ public class RequestData {
     private String password;
     private String status;
 
-    public RequestData(String firstName, String password, String active) {
-
-    }
 }
