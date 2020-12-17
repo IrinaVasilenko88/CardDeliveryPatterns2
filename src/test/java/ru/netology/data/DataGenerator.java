@@ -1,6 +1,8 @@
 package ru.netology.data;
 
 import com.github.javafaker.Faker;
+import com.github.javafaker.service.FakeValuesService;
+import com.github.javafaker.service.RandomService;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -33,6 +35,15 @@ public class DataGenerator {
                     .then() // "тогда ожидаем"
                     .statusCode(200); // код 200 OK
         }
+        public static String generateInvalidPassword() {
+            FakeValuesService fakeValuesService = new FakeValuesService(new Locale ("en"), new RandomService());
+            return fakeValuesService.bothify("?????");
+        }
+        public static String generateInvalidLogin() {
+            FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
+            return fakeValuesService.bothify("?????");
+    }
+
 
        public static RequestData generateValidUser(){
             Faker faker = new Faker(new Locale("en"));
@@ -51,14 +62,16 @@ public class DataGenerator {
        public static RequestData generateUserWithInvalidPassword(){
             Faker faker = new Faker(new Locale("en"));
             String login = faker.name().username();
-            register(new RequestData(login, "12345", "active"));
-            return new RequestData(login, "invalidPassword","active");
+            String status = "active";
+            register(new RequestData(login, generateInvalidPassword(), status));
+            return new RequestData(login, generateInvalidPassword(), status);
        }
        public static RequestData generateUserWithInvalidLogin(){
             Faker faker = new Faker(new Locale("en"));
             String password = faker.internet().password();
-            register(new RequestData("petya", password, "active"));
-            return new RequestData("invalidLogin", password, "active");
+            String status = "active";
+            register(new RequestData(generateInvalidLogin(), password, status));
+            return new RequestData(generateInvalidLogin(), password, status);
 
        }
        public static RequestData generateNonRegisteredUser(){
