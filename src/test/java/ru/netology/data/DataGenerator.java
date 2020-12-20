@@ -16,73 +16,76 @@ import static io.restassured.RestAssured.given;
 public class DataGenerator {
     private static Random random = new Random();
 
-        private static RequestSpecification requestSpec = new RequestSpecBuilder()
-                .setBaseUri("http://localhost")
-                .setPort(9999)
-                .setAccept(ContentType.JSON)
-                .setContentType(ContentType.JSON)
-                .log(LogDetail.ALL)
-                .build();
+    private static RequestSpecification requestSpec = new RequestSpecBuilder()
+            .setBaseUri("http://localhost")
+            .setPort(9999)
+            .setAccept(ContentType.JSON)
+            .setContentType(ContentType.JSON)
+            .log(LogDetail.ALL)
+            .build();
 
 
-        public static void register (RequestData requestData) {
-            // сам запрос
-            given() // "дано"
-                    .spec(requestSpec) // указываем, какую спецификацию используем
-                    .body(requestData) // передаём в теле объект, который будет преобразован в JSON
-                    .when() // "когда"
-                    .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-                    .then() // "тогда ожидаем"
-                    .statusCode(200); // код 200 OK
-        }
-        public static String generateInvalidPassword() {
-            FakeValuesService fakeValuesService = new FakeValuesService(new Locale ("en"), new RandomService());
-            return fakeValuesService.bothify("?????");
-        }
-        public static String generateInvalidLogin() {
-            FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
-            return fakeValuesService.bothify("?????");
+    public static void register(RequestData requestData) {
+        // сам запрос
+        given() // "дано"
+                .spec(requestSpec) // указываем, какую спецификацию используем
+                .body(requestData) // передаём в теле объект, который будет преобразован в JSON
+                .when() // "когда"
+                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                .then() // "тогда ожидаем"
+                .statusCode(200); // код 200 OK
+    }
+
+    public static String generateInvalidPassword() {
+        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
+        return fakeValuesService.bothify("?????");
+    }
+
+    public static String generateInvalidLogin() {
+        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en"), new RandomService());
+        return fakeValuesService.bothify("?????");
     }
 
 
-       public static RequestData generateValidUser(){
-            Faker faker = new Faker(new Locale("en"));
-            String login = faker.name().username();
-            String password = faker.internet().password();
-            register(new RequestData(login, password, "active"));
-            return new RequestData(login, password, "active");
-       }
-       public static RequestData generateBlockedUser(){
-            Faker faker = new Faker(new Locale("en"));
-            String login = faker.name().username();
-            String password = faker.internet().password();
-            register(new RequestData(login, password, "blocked"));
-            return new RequestData(login, password, "blocked");
-       }
-       public static RequestData generateUserWithInvalidPassword(){
-            Faker faker = new Faker(new Locale("en"));
-            String login = faker.name().username();
-            String status = "active";
-            register(new RequestData(login, generateInvalidPassword(), status));
-            return new RequestData(login, generateInvalidPassword(), status);
-       }
-       public static RequestData generateUserWithInvalidLogin(){
-            Faker faker = new Faker(new Locale("en"));
-            String password = faker.internet().password();
-            String status = "active";
-            register(new RequestData(generateInvalidLogin(), password, status));
-            return new RequestData(generateInvalidLogin(), password, status);
-
-       }
-       public static RequestData generateNonRegisteredUser(){
-            Faker faker = new Faker(new Locale("en"));
-            String login = faker.name().username();
-            String password = faker.internet().password();
-            RequestData firstUser = new RequestData(login, password, "active");
-            RequestData secondUser = new RequestData(login, password, "active");
-            register(firstUser);
-            register(secondUser);
-            return secondUser;
-       }
+    public static RequestData generateValidUser() {
+        Faker faker = new Faker(new Locale("en"));
+        String login = faker.name().username();
+        String password = faker.internet().password();
+        register(new RequestData(login, password, "active"));
+        return new RequestData(login, password, "active");
     }
+
+    public static RequestData generateBlockedUser() {
+        Faker faker = new Faker(new Locale("en"));
+        String login = faker.name().username();
+        String password = faker.internet().password();
+        register(new RequestData(login, password, "blocked"));
+        return new RequestData(login, password, "blocked");
+    }
+
+    public static RequestData generateUserWithInvalidPassword() {
+        Faker faker = new Faker(new Locale("en"));
+        String login = faker.name().username();
+        String status = "active";
+        register(new RequestData(login, generateInvalidPassword(), status));
+        return new RequestData(login, generateInvalidPassword(), status);
+    }
+
+    public static RequestData generateUserWithInvalidLogin() {
+        Faker faker = new Faker(new Locale("en"));
+        String password = faker.internet().password();
+        String status = "active";
+        register(new RequestData(generateInvalidLogin(), password, status));
+        return new RequestData(generateInvalidLogin(), password, status);
+
+    }
+
+    public static RequestData generateNonRegisteredUser() {
+        Faker faker = new Faker(new Locale("en"));
+        String login = faker.name().username();
+        String password = faker.internet().password();
+        RequestData firstUser = new RequestData(login, password, "active");
+        return firstUser;
+    }
+}
 
