@@ -25,4 +25,5 @@ git clone https://github.com/IrinaVasilenko88/CardDeliveryPatterns2.git
 2. Открыть склонированный проект в Intellij IDEA
 3. Открыть в терминале каталог ```artifacts```
 4. Для запуска приложения в тестовом режиме ввести команду ```java -jar app-ibank.jar -P:profile=test```
-5. Запустить команду ```gradlew test```
+5. Для запуска в браузере ввести ссылку  http://localhost:9999/
+6. Запустить команду ```gradlew test```
